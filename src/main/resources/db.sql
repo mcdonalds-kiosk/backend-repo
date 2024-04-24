@@ -24,4 +24,18 @@ INSERT INTO menu VALUES ("오레오 맥플러리", "https://www.mcdonalds.co.kr/
 INSERT INTO menu VALUES ("바닐라 쉐이크", "https://www.mcdonalds.co.kr/uploadFolder/product/prol_201901290255488970.png", 2800, "음료", now());
 INSERT INTO menu VALUES ("코카콜라", "https://www.mcdonalds.co.kr/upload/product/pcList/1583889953745.png", 1700, "음료", now());
 
+CREATE TABLE `order`
+(
+  `idx` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `menu_count` INT NOT NULL,
+  `total_price` INT NOT NULL,
+  `status` INT NOT NULL,
+  `member_idx` INT,
+  `purchase_idx` INT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  -- FOREIGN KEY (`member_idx`) REFERENCES `member`(`idx`),
+  -- FOREIGN KEY (`purchase_idx`) REFERENCES `purchase`(`idx`)
+);
+
+
 
