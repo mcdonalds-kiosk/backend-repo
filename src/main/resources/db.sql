@@ -6,29 +6,29 @@ drop table if exists member;
 
 create table member(
                        idx int PRIMARY KEY AUTO_INCREMENT,
-                       id varchar(20),
-                       pw varchar(20),
-                       name varchar(20),
-                       email varchar(100),
-                       role varchar(100),
-                       join_date date DEFAULT (current_date)
+                       id varchar(20) NOT NULL,
+                       pw varchar(20) NOT NULL,
+                       name varchar(20) NOT NULL,
+                       email varchar(100) NOT NULL,
+                       role INT NOT NULL,
+                       join_date DATETIME DEFAULT (current_timestamp()) NOT NULL
 );
 DESC member;
 
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 'user', now());
-
+VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 2, now());
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 'admin', now());
+VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 1, now());
+
 drop table if exists menu;
 
 CREATE TABLE menu (
                       idx BIGINT PRIMARY KEY AUTO_INCREMENT,
-                      `name` VARCHAR(255),
-                      image_url VARCHAR(255),
-                      price BIGINT,
+                      `name` VARCHAR(255) NOT NULL,
+                      image_url VARCHAR(255) NOT NULL,
+                      price BIGINT NOT NULL,
                       category VARCHAR(255),
-                      updated_at DATETIME  DEFAULT (current_date())
+                      updated_at DATETIME DEFAULT (current_timestamp())
 );
 
 INSERT INTO menu (`name`, image_url, price, category, updated_at) VALUES ("빅맥", "https://www.mcdonalds.co.kr/upload/product/pcList/1583727841393.png", 5500, "버거&세트", now());
@@ -48,15 +48,16 @@ drop table if exists purchase;
 
 create table purchase(
                          idx BINARY(16) PRIMARY KEY,
-                         member_idx INT,
-                         pay_type VARCHAR(20),
-                         price INT,
+                         member_idx INT ,
+                         pay_type VARCHAR(20) NOT NULL,
+                         price INT NOT NULL,
                          payment_key VARCHAR(20),
-                         amount INT,
+                         amount INT NOT NULL,
                          point INT,
-                         status INT,
-                         created_at date DEFAULT (current_date),
-                         updated_at date DEFAULT (current_date),
+                         status INT NOT NULL,
+                         payment_data JSON,
+                         created_at DATETIME DEFAULT (current_timestamp()) NOT NULL,
+                         updated_at DATETIME DEFAULT (current_timestamp()) NOT NULL,
                          CONSTRAINT fk_purchase_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx)
 );
 
@@ -67,10 +68,10 @@ CREATE TABLE `order`
     `idx` BINARY(16) PRIMARY KEY,
     `menu_count` INT NOT NULL,
     `total_price` INT NOT NULL,
-    `status` INT NOT NULL,
+    `status` VARCHAR(100) NOT NULL,
     `member_idx` INT,
     `purchase_idx` BINARY(16),
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `created_at` DATETIME DEFAULT (current_timestamp()) NOT NULL,
     CONSTRAINT fk_order_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx),
     CONSTRAINT fk_order_purchase_idx FOREIGN KEY (purchase_idx) REFERENCES purchase(idx)
 );
