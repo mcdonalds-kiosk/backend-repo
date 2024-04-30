@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+</head>
+<body>
+<h2>로그인</h2>
+<form id="loginForm">
+    <div>
+        <label for="id">아이디:</label>
+        <input type="text" id="id" name="id" required>
+    </div>
+    <div>
+        <label for="pw">비밀번호:</label>
+        <input type="password" id="pw" name="pw" required>
+    </div>
+    <div>
+        <button type="button" onclick="cancle()">취소</button>
+        <button type="button" onclick="login()">로그인</button>
+    </div>
+    <div>
+        <button type="button" onclick="welcomePage()">비회원 입장</button>
+    </div>
+    <div>
+        <button type="button" onclick="joinPage()">회원 가입</button>
+    </div>
+
+</form>
+
+<script>
+    function login(){
+        const id = document.getElementById('id').value;
+        const pw = document.getElementById('pw').value;
+
+        fetch("/api/v1/members/login",{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: id,
+                pw: pw
+            })
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) =>  {
+                if (data.status === true) {
+                    sessionStorage.setItem('idx', data.idx);
+                    sessionStorage.setItem('name', data.name);
+                    welcomePage()
+                } else {
+                    alert('로그인에 실패했습니다.');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    function welcomePage(){
+        alert('어서오세요!');
+        window.location.href = '/order';
+    }
+
+    function joinPage(){
+        window.location.href = '/join';
+    }
+
+    function cancle(){
+        document.getElementById('loginForm').reset();
+    }
+
+</script>
+</body>
+</html>
