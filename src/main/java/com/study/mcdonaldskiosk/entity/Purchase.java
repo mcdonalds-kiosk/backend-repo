@@ -1,9 +1,14 @@
 package com.study.mcdonaldskiosk.entity;
 
+<<<<<<< HEAD
+import jakarta.persistence.*;
+import lombok.*;
+=======
 import com.study.mcdonaldskiosk.dto.PurchaseResDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
+>>>>>>> 738850bfbb64d6f99cd0ff80501465dcc6346172
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -41,6 +46,8 @@ public class Purchase {
   @Column(name="updated_at", nullable = false)
   private LocalDateTime updatedAt = LocalDateTime.now();
 
+<<<<<<< HEAD
+=======
   public PurchaseResDto toPurchaseResDto() {
     return PurchaseResDto.builder()
         .payType(payType)
@@ -48,4 +55,5 @@ public class Purchase {
         .createdAt(String.valueOf(getCreatedAt()))
         .build();
   }
+>>>>>>> 738850bfbb64d6f99cd0ff80501465dcc6346172
 }
