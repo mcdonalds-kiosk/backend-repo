@@ -1,5 +1,8 @@
 package com.study.mcdonaldskiosk.dto;
 
+import lombok.Data;
+
+@Data
 public class PurchaseSuccessCardDto {
   String number;
   String installmentPlanMonths;
