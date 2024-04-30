@@ -33,14 +33,10 @@
     function login(){
         const id = document.getElementById('id').value;
         const pw = document.getElementById('pw').value;
-
-        fetch("/api/v1/members/login",{
-            method: "POST",
+        console.log(id, pw);
+        fetch("/api/v1/members/login?id="+id+"&pw="+pw,{
+            method: "GET",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: id,
-                pw: pw
-            })
         })
             .then((response) => {
                 return response.json();
@@ -49,7 +45,7 @@
                 if (data.status === true) {
                     sessionStorage.setItem('idx', data.idx);
                     sessionStorage.setItem('name', data.name);
-                    welcomePage()
+                    welcomePage();
                 } else {
                     alert('로그인에 실패했습니다.');
                 }

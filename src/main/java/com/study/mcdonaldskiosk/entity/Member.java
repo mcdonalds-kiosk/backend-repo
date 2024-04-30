@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,14 +27,15 @@ public class Member {
     private String name;
     @Column(name = "email", nullable = false)
     private String email;
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "role", nullable = false)
     private MemberRole role;
     @Column(name = "join_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate joinDate;
+    private LocalDateTime joinDate;
 
     @Builder
-    public Member(String id, String pw, String email, String name, MemberRole role, LocalDate joinDate){
+    public Member(String id, String pw, String email, String name, MemberRole role, LocalDateTime joinDate){
         this.id = id;
         this.pw = pw;
         this.email = email;

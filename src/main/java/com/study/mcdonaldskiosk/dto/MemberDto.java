@@ -6,6 +6,7 @@ import com.study.mcdonaldskiosk.entity.Member;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class MemberDto {
@@ -19,8 +20,8 @@ public class MemberDto {
     public Member toEntity(){
         return Member.builder().
                 id(this.id).pw(this.pw).name(this.name)
-                .email(this.email).role(MemberRole.fromValue(Integer.parseInt(this.role)))
-                .joinDate(LocalDate.now())
+                .email(this.email).role(MemberRole.valueOf(this.role))
+                .joinDate(LocalDateTime.now())
                 .build();
     }
 }

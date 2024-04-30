@@ -5,10 +5,7 @@ import com.study.mcdonaldskiosk.dto.ResMemberLoginDto;
 import com.study.mcdonaldskiosk.entity.Member;
 import com.study.mcdonaldskiosk.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -23,11 +20,12 @@ public class MemberController {
         memberRepository.save(member);
     }
 
-    @PostMapping("/login")
-    public ResMemberLoginDto login(@RequestBody MemberDto memberDto){
+    @GetMapping("/login")
+    public ResMemberLoginDto login(@RequestParam String id, String pw){
         ResMemberLoginDto resMemberLoginDto = new ResMemberLoginDto();
+        System.out.println(id+"와"+ pw);
         resMemberLoginDto.setStatus(false);
-        Optional<Member> member = memberRepository.findTopByIdAndPw(memberDto.getId(), memberDto.getPw());
+        Optional<Member> member = memberRepository.findTopByIdAndPw(id, pw);
         if(member.isPresent()){
             resMemberLoginDto.setStatus(true);
             resMemberLoginDto.setIdx(member.get().getIdx());
