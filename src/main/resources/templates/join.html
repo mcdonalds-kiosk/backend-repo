@@ -24,7 +24,7 @@
         <label for="name">이름:</label>
         <input type="text" id="name" name="name" required>
     </div>
-    <input type="hidden" id="role" name="id" value="1"/>
+    <input type="hidden" id="role" name="id" value="USER"/>
     <div>
         <button type="button" onclick="cancle()">취소</button>
         <button type="button" onclick="join()">가입</button>
@@ -34,22 +34,40 @@
 
 <script>
     function join(){
-        fetch("/api/v1/members/join",{
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id: document.getElementById('id').value,
-                pw: document.getElementById('pw').value,
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                role: document.getElementById('role').value
-            })
+
+        const id = document.getElementById('id').value;
+        const pw = document.getElementById('pw').value;
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const role = document.getElementById('role').value;
+
+        fetch("/api/v1/members/check_dup_id?id="+document.getElementById('id').value,{
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
         })
             .then((response) => {
+                return response.json();
             })
-            .then(() =>  {
-                alert('회원가입이 완료되었습니다.');
-                window.location.href = '/login';
+            .then((data) => {
+                if(data.status === true){
+                    fetch("/api/v1/members/join",{
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: id,
+                            pw: pw,
+                            name: name,
+                            email: email,
+                            role: role
+                        })
+                    }).then((response) => {response.json();}
+                    ).then((json) => {
+                        alert("환영합니다!");
+                        window.location.href = '/login';
+                    })
+                }
+                else alert("이미 사용중인 아이디입니다.");
+
             })
             .catch((error) => {
                 console.log(error);
