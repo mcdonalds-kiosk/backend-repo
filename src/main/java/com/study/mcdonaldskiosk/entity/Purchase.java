@@ -1,5 +1,6 @@
 package com.study.mcdonaldskiosk.entity;
 
+import com.study.mcdonaldskiosk.constant.PurchaseStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -29,8 +30,9 @@ public class Purchase {
   private Long amount;
   @Column(name="point")
   private double point;
+  @Enumerated(EnumType.ORDINAL)
   @Column(name="status", nullable = false)
-  private int status;
+  private PurchaseStatus status;
   @Column(name = "payment_data", columnDefinition = "json")
   private String paymentData;
   @Column(name="created_at", nullable = false)

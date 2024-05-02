@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ResDto {
+public class OderIdResDto {
   String status;
   String orderId;
 }

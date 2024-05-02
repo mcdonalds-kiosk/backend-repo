@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, UUID> {
-  Optional<Purchase> findByIdx(UUID orderId);
+  Optional<Purchase> findByIdx(UUID idx);
 }

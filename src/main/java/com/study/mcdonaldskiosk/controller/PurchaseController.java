@@ -3,12 +3,14 @@ package com.study.mcdonaldskiosk.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.mcdonaldskiosk.TossPaymentConfig;
+import com.study.mcdonaldskiosk.constant.PurchaseStatus;
 import com.study.mcdonaldskiosk.dto.PurchaseDto;
 import com.study.mcdonaldskiosk.dto.PurchaseFailDto;
 import com.study.mcdonaldskiosk.dto.PurchaseSuccessDto;
-import com.study.mcdonaldskiosk.dto.ResDto;
+import com.study.mcdonaldskiosk.dto.OderIdResDto;
 import com.study.mcdonaldskiosk.entity.Purchase;
 import com.study.mcdonaldskiosk.repository.PurchaseRepository;
+import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,24 +24,20 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/payments")
 public class PurchaseController {
   private final PurchaseRepository purchaseRepository;
   private final TossPaymentConfig tossPaymentConfig;
 
-  public PurchaseController(PurchaseRepository purchaseRepository, TossPaymentConfig tossPaymentConfig) {
-    this.purchaseRepository = purchaseRepository;
-    this.tossPaymentConfig = tossPaymentConfig;
-  }
-
   @PostMapping("/toss")
-  public ResDto requestTossPayment(@RequestBody PurchaseDto purchaseReqDto) {
+  public OderIdResDto requestTossPayment(@RequestBody PurchaseDto purchaseReqDto) {
     Purchase purchase = purchaseReqDto.toEntity();
     purchaseRepository.save(purchase);
 
     String orderId = String.valueOf(purchase.getIdx());
-    return ResDto.builder()
+    return OderIdResDto.builder()
         .status("ok").orderId(orderId)
         .build();
   }
@@ -83,7 +81,7 @@ public class PurchaseController {
 
     System.out.println(paymentKey);
     purchase.setPaymentKey(paymentKey);
-    purchase.setStatus(1);
+    purchase.setStatus(PurchaseStatus.valueOf("DONE"));
     purchase.setPaymentData(jsonResult);
     return result;
   }
@@ -93,7 +91,7 @@ public class PurchaseController {
     Purchase purchase = purchaseRepository.findByIdx(UUID.fromString(orderId)).orElseThrow(() -> {
       throw new RuntimeException("payment not found");
     });
-    purchase.setStatus(0);
+    purchase.setStatus(PurchaseStatus.valueOf("ABORTED"));
     return PurchaseFailDto.builder()
         .errorCode(code)
         .errorMessage(message)

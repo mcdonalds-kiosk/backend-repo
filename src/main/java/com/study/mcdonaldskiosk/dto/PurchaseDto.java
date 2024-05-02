@@ -1,5 +1,6 @@
 package com.study.mcdonaldskiosk.dto;
 
+import com.study.mcdonaldskiosk.constant.PurchaseStatus;
 import com.study.mcdonaldskiosk.entity.Purchase;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class PurchaseDto {
         .payType(payType)
         .price(amount)
         .amount(amount)
-        .status(1)
+        .status(PurchaseStatus.valueOf("IN_PROGRESS"))
         .createdAt(LocalDateTime.now())
         .updatedAt(LocalDateTime.now())
         .build();
