@@ -24,7 +24,7 @@ public class PaymentReqDto {
                 .payType(payType)
                 .price(price)
                 .amount(amount)
-                .status(1) // Providing a default status if not set
+                .status(1)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

@@ -15,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/payments")
 public class PaymentController {
 
-    @Autowired
     private PaymentService paymentService;
 
     @PostMapping("/toss")
     public ResponseEntity<?> createTossPayment(@RequestBody PaymentReqDto paymentReqDto) {
-
-        // fetch 로 불러서 orderID를 불러와서 orderId를 불러줬다.
         try {
             PaymentResDto resDto = paymentService.createPayment(paymentReqDto);
             return ResponseEntity.ok(resDto);

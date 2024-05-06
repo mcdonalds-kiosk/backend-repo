@@ -1,11 +1,9 @@
 package com.study.mcdonaldskiosk.domain.purchase;
 
-import com.study.mcdonaldskiosk.domain.member.Member;
 import com.study.mcdonaldskiosk.domain.payment.PayType;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -21,8 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "purchase")
 public class Purchase {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx", updatable = false, nullable = false)
     private UUID idx;
 

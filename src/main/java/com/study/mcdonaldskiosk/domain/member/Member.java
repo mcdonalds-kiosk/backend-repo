@@ -36,4 +36,14 @@ public class Member {
 
     @Column(name = "join_date", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
+
+    @Builder
+    public Member(String id, String pw, String email, String name, Integer role, LocalDateTime joinDate){
+        this.id = id;
+        this.pw = pw;
+        this.email = email;
+        this.name = name;
+        this.role = role;
+        this.joinDate = joinDate;
+    }
 }
