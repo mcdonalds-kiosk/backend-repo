@@ -31,7 +31,7 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/toss/success")
+    @PostMapping("/toss/success/order")
     public OrderSuccessResDto orderSuccess(@RequestBody OrderSuccessReqDto orderSuccessReqDto) {
         Order order = orderSuccessReqDto.toEntity();
         Order savedOrder = orderRepository.save(order);

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrderSuccessResDto {
-    private Integer status;
-    private Integer orderIdx;
+    private int status;
+    private int orderIdx;
 }
