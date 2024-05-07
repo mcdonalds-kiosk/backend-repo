@@ -45,7 +45,6 @@ public class PurchaseController {
   @Transactional
   @GetMapping("/toss/success")
   public PurchaseSuccessDto tossPaymentSuccess(@RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws JsonProcessingException {
-    System.out.println("api 호출됨");
     Purchase purchase = purchaseRepository.findByIdx(UUID.fromString(orderId)).orElseThrow(() -> {
       throw new RuntimeException("orderId notFound");
     });
@@ -86,7 +85,7 @@ public class PurchaseController {
     return result;
   }
 
-  @PostMapping("/toss/fail")
+  @GetMapping("/toss/fail")
   public PurchaseFailDto tossPaymentFail(@RequestParam String code, @RequestParam String message, @RequestParam String orderId) {
     Purchase purchase = purchaseRepository.findByIdx(UUID.fromString(orderId)).orElseThrow(() -> {
       throw new RuntimeException("payment not found");
