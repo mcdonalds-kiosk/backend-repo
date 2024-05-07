@@ -18,9 +18,12 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin-management")
 public class AdminController {
+    @Autowired
     private AdminService adminService;
+    @Autowired
     private MemberService memberService;
 
+    @Autowired
     private MenuService menuService;
 
     // 관리자로 로그인 하면 관리자 페이지로 넘어가주기

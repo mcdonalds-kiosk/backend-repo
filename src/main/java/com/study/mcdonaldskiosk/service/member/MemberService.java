@@ -38,7 +38,6 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(Integer idx) {
-        System.out.println("idx : " + idx);
         // Check if the member exists before attempting to delete
         if (memberRepository.existsById(idx)) {
             memberRepository.deleteById(idx);
