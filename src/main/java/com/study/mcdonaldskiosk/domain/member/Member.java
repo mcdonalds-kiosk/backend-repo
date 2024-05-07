@@ -17,7 +17,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx", nullable = false)
-    private Integer idx;
+    private int idx;
 
     @Column(name = "id", nullable = false, length = 20)
     private String id;
@@ -32,13 +32,13 @@ public class Member {
     private String email;
 
     @Column(name = "role", nullable = false)
-    private Integer role;
+    private int role;
 
     @Column(name = "join_date", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
 
     @Builder
-    public Member(String id, String pw, String email, String name, Integer role, LocalDateTime joinDate){
+    public Member(String id, String pw, String email, String name, int role, LocalDateTime joinDate){
         this.id = id;
         this.pw = pw;
         this.email = email;

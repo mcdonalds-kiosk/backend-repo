@@ -26,7 +26,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updateMember(Integer idx, Member memberDetails) {
+    public Member updateMember(int idx, Member memberDetails) {
         Member member = memberRepository.findTopByIdx(idx).orElseThrow(() -> new RuntimeException("User Not Found"));
         member.setId(memberDetails.getId());
         member.setPw(memberDetails.getPw());
@@ -37,7 +37,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteMember(Integer idx) {
+    public void deleteMember(int idx) {
         // Check if the member exists before attempting to delete
         if (memberRepository.existsById(idx)) {
             memberRepository.deleteById(idx);

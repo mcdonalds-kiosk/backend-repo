@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
-
-    Optional<Member> findTopByIdx(Integer idx);
+    Optional<Member> findTopByIdx(int idx);
 }
