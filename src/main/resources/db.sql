@@ -16,9 +16,9 @@ create table member(
 DESC member;
 
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 2, now());
+VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 1, now());
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 1, now());
+VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 0, now());
 
 drop table if exists category;
 
@@ -80,7 +80,7 @@ drop table if exists `order`;
 
 CREATE TABLE `order`
 (
-    `idx` BINARY(16) PRIMARY KEY,
+    `idx` INT PRIMARY KEY AUTO_INCREMENT,
     `menu_count` INT NOT NULL,
     `total_price` INT NOT NULL,
     `status` VARCHAR(100) NOT NULL,
