@@ -54,7 +54,7 @@ create table purchase(
                          member_idx INT ,
                          pay_type VARCHAR(20) NOT NULL,
                          price INT NOT NULL, --
-                         payment_key VARCHAR(20),
+                         payment_key VARCHAR(100),
                          amount INT NOT NULL, --
                          point INT,
                          status INT NOT NULL,
