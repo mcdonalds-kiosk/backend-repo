@@ -4,7 +4,6 @@
     <div th:replace="/fragments/header.html :: header"></div>
     <meta charset="UTF-8" />
     <title>멤버 정보</title>
-    <!-- Include Bootstrap CSS and JS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -54,7 +53,6 @@
           th:replace="fragments/nav :: nav"
           fixed-top
         ></div>
-        <!-- <div layout:fragment="content" class="content"> -->
         <div class="container">
           <div class="col-md-12">
             <h2>회원 관리</h2>
@@ -88,7 +86,7 @@
                   ></td>
                   <td>
                     <a
-                      th:href="@{/admin-management/members/{idx}/edit(idx=${member.idx})}"
+                      th:href="@{/admin/members/{idx}/edit(idx=${member.idx})}"
                       class="button blue"
                       >수정</a
                     >
@@ -111,13 +109,13 @@
     <script>
       function deleteMember(memberIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin-management/members/' + memberIdx, {
+          fetch('/admin/members/' + memberIdx, {
             method: 'DELETE',
           })
             .then((response) => {
               if (response.ok) {
                 alert('삭제 성공');
-                window.location.reload(); // Reload the page to update the list
+                window.location.reload();
               } else {
                 alert('삭제 실패');
               }

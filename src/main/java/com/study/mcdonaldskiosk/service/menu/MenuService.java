@@ -21,7 +21,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public Optional<Menu> findTopByIdx(Long menuIdx) {
-        return menuRepository.findTopByIdx(menuIdx);
+            return menuRepository.findTopByIdx(menuIdx);
     }
 
     @Transactional

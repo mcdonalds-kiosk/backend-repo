@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>상품 정보 수정</title>
+    <title>메뉴 정보 수정</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -45,14 +45,8 @@
   </head>
   <body>
     <div class="container">
-      <h2>멤버 정보 수정</h2>
+      <h2>메뉴 정보 수정</h2>
       <form id="updateMenuForm" th:object="${menu}">
-        <!-- Your form fields go here -->
-        <!-- <form
-        th:action="@{/admin-management/members/{idx}(idx=${member.idx})}"
-        th:method="post"
-        th:object="${member}"
-      > -->
         <input type="hidden" id="idx" name="idx" th:value="${menu.idx}" />
         <div>
           <label for="name">이름</label>
@@ -60,21 +54,12 @@
         </div>
         <div>
           <label for="id">이미지</label>
-          <!-- <img
-            id="imageDisplay_{{menu.idx}}"
-            src="${menu.imageUrl}"
-            style="max-width: 100px; height: auto"
-          /> -->
           <img
             id="imagePreview"
             th:src="${menu.imageUrl}"
             alt="Menu Image Preview"
             style="max-width: 100%; height: auto"
           />
-          <!-- <form
-            th:action="@{/admin-management/menus/update-image}"
-            method="post"
-          > -->
           <label for="imageUrl">이미지 URL:</label>
           <input
             type="text"
@@ -83,8 +68,6 @@
             th:value="${menu.imageUrl}"
             placeholder="이미지 URL을 입력하세요"
           />
-          <!-- <button type="submit" class="button blue">저장</button> -->
-          <!-- </form> -->
         </div>
         <div>
           <label for="price">가격</label>
@@ -100,19 +83,6 @@
             <option value="5">음료</option>
           </select>
         </div>
-        <!-- <div>
-          <label for="editTime">최종수정시간</label>
-          <input
-            type="date"
-            id="editTime"
-            th:value="${#temporals.format(menu.updatedAt, 'yyyy-MM-dd')}"
-          />
-        </div> -->
-        <!--    <div>-->
-        <!--      <label for="point">적립금</label>-->
-        <!--      <input type="number" id="point" th:field="*{point}" />-->
-        <!--    </div>-->
-        <!-- <button type="submit" class="btn-blue">수정</button> -->
         <button type="button" class="btn-blue" onclick="updateMenu()">
           수정
         </button>
@@ -125,8 +95,8 @@
       function updateMenu() {
         const form = document.getElementById('updateMenuForm');
         const formData = new FormData(form);
-        const idx = formData.get('idx'); // Now this should correctly get the value
-        const url = `/admin-management/api/menus/${idx}`;
+        const idx = formData.get('idx');
+        const url = `/admin/menus/${idx}`;
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -152,8 +122,7 @@
           .then((data) => {
             console.log('Success:', data);
             alert('메뉴 정보 수정 성공');
-            window.location.href = '/admin-management/menus';
-            // Redirect or update UI as needed
+            window.location.href = '/admin/menus';
           })
           .catch((error) => {
             console.error('Error:', error);

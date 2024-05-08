@@ -47,12 +47,6 @@
     <div class="container">
       <h2>멤버 정보 수정</h2>
       <form id="updateOrderForm" th:object="${order}">
-        <!-- Your form fields go here -->
-        <!-- <form
-        th:action="@{/admin-management/members/{idx}(idx=${member.idx})}"
-        th:method="post"
-        th:object="${member}"
-      > -->
         <input type="hidden" id="idx" name="idx" th:value="${order.idx}" />
         <div>
           <label for="name">주문 번호</label>
@@ -97,8 +91,8 @@
       function updateOrder() {
         const form = document.getElementById('updateOrderForm');
         const formData = new FormData(form);
-        const idx = formData.get('idx'); // Now this should correctly get the value
-        const url = `/admin-management/api/orders/${idx}`;
+        const idx = formData.get('idx');
+        const url = `/admin/orders/${idx}`;
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -124,8 +118,7 @@
           .then((data) => {
             console.log('Success:', data);
             alert('주문 정보 수정 성공');
-            window.location.href = '/admin-management/orders';
-            // Redirect or update UI as needed
+            window.location.href = '/admin/orders';
           })
           .catch((error) => {
             console.error('Error:', error);
