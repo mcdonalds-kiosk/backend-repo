@@ -1,12 +1,8 @@
 package com.study.mcdonaldskiosk.domain.member.entity;
 
-import com.study.mcdonaldskiosk.constant.MemberRole;
 import com.study.mcdonaldskiosk.domain.member.MemberRole;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -14,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //Entity e = new Entity()
 public class Member {
     @Id

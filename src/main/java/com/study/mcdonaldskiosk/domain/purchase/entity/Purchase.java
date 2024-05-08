@@ -35,7 +35,7 @@ public class Purchase {
   @Column(name = "payment_data", columnDefinition = "json")
   private String paymentData;
   @Column(name="created_at", nullable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private LocalDateTime createdAt;
   @Column(name="updated_at", nullable = false)
-  private LocalDateTime updatedAt = LocalDateTime.now();
+  private LocalDateTime updatedAt;
 }

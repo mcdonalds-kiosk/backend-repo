@@ -35,7 +35,7 @@ public class Order {
     private UUID purchaseIdx; // UUID 타입을 사용하여 binary(16) 타입과 호환되도록 구현
 
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Builder
     public Order(int menuCount, int totalPrice, String status, Integer memberIdx, UUID purchaseIdx, LocalDateTime createdAt) {

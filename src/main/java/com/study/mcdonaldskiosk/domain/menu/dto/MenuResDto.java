@@ -1,5 +1,6 @@
 package com.study.mcdonaldskiosk.domain.menu.dto;
 
+import com.study.mcdonaldskiosk.domain.menu.entity.Menu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
