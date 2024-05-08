@@ -1,6 +1,7 @@
 package com.study.mcdonaldskiosk.domain.admin.controller;
 
 import com.study.mcdonaldskiosk.domain.member.entity.Member;
+import com.study.mcdonaldskiosk.domain.member.MemberRole;
 import com.study.mcdonaldskiosk.domain.member.repository.MemberRepository;
 import com.study.mcdonaldskiosk.domain.menu.entity.Menu;
 import com.study.mcdonaldskiosk.domain.menu.repository.MenuRepository;
@@ -29,7 +30,7 @@ public class AdminController {
 
     @GetMapping("/members")
     public String manageMembers(Model model) {
-        List<Member> members = memberRepository.findAll();
+        List<Member> members = memberRepository.findByRoleNot(MemberRole.UNKNOWN);
         model.addAttribute("members", members);
         return "admin/member";
     }
