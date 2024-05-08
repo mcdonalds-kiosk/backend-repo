@@ -1,4 +1,4 @@
-package com.study.mcdonaldskiosk;
+package com.study.mcdonaldskiosk.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,5 +13,11 @@ public class TossPaymentConfig {
   @Value("${payment.toss.secret_key}")
   private String secretKey;
 
+  @Value("${payment.toss.success_url}")
+  private String successUrl;
+
+  @Value("${payment.toss.fail_url}")
+  private String failUrl;
   public static final String URL = "https://api.tosspayments.com/v1/payments/";
+
 }
