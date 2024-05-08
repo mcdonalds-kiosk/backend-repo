@@ -30,7 +30,6 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing payment");
         }
     }
-
     @PostMapping("/toss/success/order")
     public OrderSuccessResDto orderSuccess(@RequestBody OrderSuccessReqDto orderSuccessReqDto) {
         Order order = orderSuccessReqDto.toEntity();
