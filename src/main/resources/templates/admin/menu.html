@@ -21,6 +21,7 @@
       td {
         border: 1px solid black;
         padding: 8px;
+        
         text-align: center;
       }
       th {
@@ -109,6 +110,7 @@
             .then((response) => {
               if (response.ok) {
                 alert('삭제 성공');
+
                 window.location.reload();
               } else {
                 alert('삭제 실패');

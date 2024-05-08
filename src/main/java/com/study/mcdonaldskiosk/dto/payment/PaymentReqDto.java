@@ -16,6 +16,7 @@ public class PaymentReqDto {
     private PayType payType;
     private int price;
     private int amount;
+
     private String orderName;
 
     public Purchase toEntity() {
