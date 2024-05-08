@@ -26,6 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/payments")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PurchaseController {
   private final PurchaseRepository purchaseRepository;
   private final TossPaymentConfig tossPaymentConfig;

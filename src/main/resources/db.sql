@@ -66,7 +66,7 @@ create table purchase(
 drop table if exists `order`;
 CREATE TABLE `order`
 (
-    `idx` BINARY(16) PRIMARY KEY,
+    `idx` int PRIMARY KEY AUTO_INCREMENT,
     `menu_count` INT NOT NULL,
     `total_price` INT NOT NULL,
     `status` VARCHAR(100) NOT NULL,

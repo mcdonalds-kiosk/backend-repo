@@ -15,7 +15,7 @@ public class MenuResDto {
   private String name;
   private String imageUrl;
   private Long price;
-  private int categoryIdx;
+  private int category;
   private LocalDateTime updatedAt;
 
   public MenuResDto(Menu entity){
@@ -23,7 +23,7 @@ public class MenuResDto {
     this.name = entity.getName();
     this.imageUrl = entity.getImageUrl();
     this.price = entity.getPrice();
-    this.categoryIdx = entity.getCategoryIdx();
+    this.category = entity.getCategoryIdx();
     this.updatedAt = entity.getUpdatedAt();
   }
 }
