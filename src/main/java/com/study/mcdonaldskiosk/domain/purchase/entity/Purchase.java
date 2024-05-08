@@ -17,7 +17,7 @@ public class Purchase {
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name="idx", nullable=false)
   private UUID idx;
-  @Column(name="member_idx", nullable = false)
+  @Column(name="member_idx", nullable = true)
   private int memberIdx;
   @Column(name="pay_type", nullable = false)
   private String payType;

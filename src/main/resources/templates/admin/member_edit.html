@@ -91,6 +91,7 @@
         const formData = new FormData(form);
         const idx = formData.get('idx');
         const url = `/api/v1/admin/members/${idx}`;
+
         const jsonData = {};
 
         formData.forEach((value, key) => {

@@ -1,5 +1,6 @@
 package com.study.mcdonaldskiosk.domain.member.controller;
 
+import com.study.mcdonaldskiosk.domain.member.MemberRole;
 import com.study.mcdonaldskiosk.domain.member.entity.Member;
 import com.study.mcdonaldskiosk.domain.member.repository.MemberRepository;
 import com.study.mcdonaldskiosk.domain.member.dto.MemberDto;
@@ -40,9 +41,11 @@ public class MemberController {
         resMemberLoginDto.setStatus(false);
         Optional<Member> member = memberRepository.findTopByIdAndPw(id, pw);
         if(member.isPresent()){
-            resMemberLoginDto.setStatus(true);
-            resMemberLoginDto.setIdx(member.get().getIdx());
-            resMemberLoginDto.setName(member.get().getName());
+            if(member.get().getRole() != MemberRole.UNKNOWN) {
+                resMemberLoginDto.setStatus(true);
+                resMemberLoginDto.setIdx(member.get().getIdx());
+                resMemberLoginDto.setName(member.get().getName());
+            }
         }
         return resMemberLoginDto;
     }

@@ -4,20 +4,24 @@ import com.study.mcdonaldskiosk.domain.order.repository.OrderRepository;
 import com.study.mcdonaldskiosk.domain.order.dto.OrderSuccessReqDto;
 import com.study.mcdonaldskiosk.domain.order.dto.OrderSuccessResDto;
 import com.study.mcdonaldskiosk.domain.order.entity.Order;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/orders")
+@CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
-  private OrderRepository orderRepository;
+  private final OrderRepository orderRepository;
 
   @PostMapping("/toss/success/order")
   public OrderSuccessResDto orderSuccess(@RequestBody OrderSuccessReqDto orderSuccessReqDto) {
     Order order = orderSuccessReqDto.toEntity();
-    Order savedOrder = orderRepository.save(order);
+    orderRepository.save(order);
 
     OrderSuccessResDto result = new OrderSuccessResDto();
     result.setStatus(200);
-    result.setOrderIdx(savedOrder.getIdx());
+    result.setOrderIdx(order.getIdx());
 
     return result;
   }
