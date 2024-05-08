@@ -78,17 +78,13 @@
                   <td th:text="${order.menuCount}"></td>
                   <td th:text="${order.idx}"></td>
                   <td th:text="${order.status}"></td>
-                  <!-- <td
-                    th:text="${order.status == '0' ? '실패' : order.status == '1' ? '성공'}"
-                  ></td> -->
                   <td>
                     <a
-                      th:href="@{/admin-management/orders/{idx}/edit(idx=${order.idx})}"
+                      th:href="@{/admin/orders/{idx}/edit(idx=${order.idx})}"
                       class="button blue"
                       >수정</a
                     >
                   </td>
-                  <!-- <td><button class="button red">삭제</button></td> -->
                   <td>
                     <button
                       class="button red"
@@ -107,7 +103,7 @@
     <script>
       function deleteOrder(orderIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin-management/orders/' + orderIdx, {
+          fetch('/admin/orders/' + orderIdx, {
             method: 'DELETE',
           })
             .then((response) => {

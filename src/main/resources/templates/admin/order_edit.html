@@ -47,16 +47,16 @@
     <div class="container">
       <h2>멤버 정보 수정</h2>
       <form id="updateOrderForm" th:object="${order}">
-        <!-- Your form fields go here -->
-        <!-- <form
-        th:action="@{/admin-management/members/{idx}(idx=${member.idx})}"
-        th:method="post"
-        th:object="${member}"
-      > -->
         <input type="hidden" id="idx" name="idx" th:value="${order.idx}" />
+        <input
+          type="hidden"
+          id="memberIdx"
+          name="memberIdx"
+          th:value="${order.memberIdx}"
+        />
         <div>
           <label for="name">주문 번호</label>
-          <input type="text" id="name" th:field="*{purchaseIdx}" />
+          <input type="text" id="name" th:field="*{purchaseIdx}" disabled />
         </div>
         <div>
           <label for="price">주문 총 금액</label>
@@ -73,8 +73,24 @@
         <div>
           <label for="status">옵션</label>
           <select id="status" th:field="*{status}">
-            <option value="0">결제 실패</option>
-            <option value="1">결제 성공</option>
+            <option value="Pending" th:selected="${status == 'Pending'}">
+              Pending: 주문이 접수되었으나 아직 처리되지 않음
+            </option>
+            <option value="Processing" th:selected="${status == 'Processing'}">
+              Processing: 주문이 처리 중임
+            </option>
+            <option value="Completed" th:selected="${status == 'Completed'}">
+              Completed: 주문이 성공적으로 처리되었음
+            </option>
+            <option value="Failed" th:selected="${status == 'Failed'}">
+              Failed: 주문 처리에 실패했음 있음
+            </option>
+            <option value="Cancelled" th:selected="${status == 'Cancelled'}">
+              Cancelled: 주문이 취소됨
+            </option>
+            <option value="Refunded" th:selected="${status == 'Refunded'}">
+              Refunded: 결제가 환불됨
+            </option>
           </select>
         </div>
         <div>
@@ -97,8 +113,8 @@
       function updateOrder() {
         const form = document.getElementById('updateOrderForm');
         const formData = new FormData(form);
-        const idx = formData.get('idx'); // Now this should correctly get the value
-        const url = `/admin-management/api/orders/${idx}`;
+        const idx = formData.get('idx');
+        const url = `/admin/orders/${idx}`;
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -124,8 +140,7 @@
           .then((data) => {
             console.log('Success:', data);
             alert('주문 정보 수정 성공');
-            window.location.href = '/admin-management/orders';
-            // Redirect or update UI as needed
+            window.location.href = '/admin/orders';
           })
           .catch((error) => {
             console.error('Error:', error);

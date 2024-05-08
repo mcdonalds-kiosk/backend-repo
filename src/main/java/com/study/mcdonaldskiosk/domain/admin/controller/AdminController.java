@@ -1,12 +1,11 @@
 package com.study.mcdonaldskiosk.domain.admin.controller;
 
-import com.study.mcdonaldskiosk.domain.admin.service.AdminService;
 import com.study.mcdonaldskiosk.domain.member.entity.Member;
+import com.study.mcdonaldskiosk.domain.member.repository.MemberRepository;
 import com.study.mcdonaldskiosk.domain.menu.entity.Menu;
+import com.study.mcdonaldskiosk.domain.menu.repository.MenuRepository;
 import com.study.mcdonaldskiosk.domain.order.entity.Order;
-import com.study.mcdonaldskiosk.domain.member.service.MemberService;
-import com.study.mcdonaldskiosk.domain.menu.service.MenuService;
-import com.study.mcdonaldskiosk.domain.order.service.OrderService;
+import com.study.mcdonaldskiosk.domain.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,58 +13,60 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin-management")
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
+    private MemberRepository memberRepository;
     @Autowired
-    private MemberService memberService;
+    private MenuRepository menuRepository;
     @Autowired
-    private MenuService menuService;
-    @Autowired
-    private OrderService orderService;
+    private OrderRepository orderRepository;
 
-    // 관리자로 로그인 하면 관리자 페이지로 넘어가주기
     @GetMapping("/members")
     public String manageMembers(Model model) {
-        List<Member> members = memberService.getAllMembers();
+        List<Member> members = memberRepository.findAll();
         model.addAttribute("members", members);
         return "admin/member";
     }
 
     @GetMapping("/members/{idx}/edit")
     public String editMemberForm(@PathVariable int idx, Model model) {
-        Optional<Member> findedMember = memberService.findTopByIdx(idx);
+        Optional<Member> findedMember = memberRepository.findTopByIdx(idx);
         if (findedMember.isPresent()) {
             model.addAttribute("member", findedMember.get());
             return "admin/member_edit";
         } else {
-            model.addAttribute("error", "No member found with id: " + idx);
+            model.addAttribute("error", "해당 유저가 존재하지 않습니다");
             return "admin/member";
         }
     }
 
-    // Form Action 방법
-//    @PostMapping("/members/{idx}")
-//    public String editMemberInfo(@PathVariable Integer idx, @ModelAttribute Member memberDetails) {
-//        memberService.updateMemberInfo(idx, memberDetails);
-//        return "redirect:/admin-management/members";
-//    }
-    // RestFul API 방법
-    @PutMapping("/api/members/{idx}")
-    public ResponseEntity<Member> updateMember(@PathVariable int idx, @RequestBody Member memberDetails) {
-        Member updatedMember = memberService.updateMember(idx, memberDetails);
-        return ResponseEntity.ok(updatedMember);
+    @PutMapping("/members/{idx}")
+    public ResponseEntity<Member> editMember(@PathVariable int idx, @RequestBody Member memberDetails) {
+        Member editedMember = memberRepository.findTopByIdx(idx).orElseThrow(() -> new RuntimeException("해당 유저가 존재하지 않습니다"));
+        editedMember.setId(memberDetails.getId());
+        editedMember.setPw(memberDetails.getPw());
+        editedMember.setName(memberDetails.getName());
+        editedMember.setRole(memberDetails.getRole());
+        editedMember.setJoinDate(LocalDateTime.now());
+        memberRepository.save(editedMember);
+
+        return ResponseEntity.ok(editedMember);
     }
 
     @DeleteMapping("/members/{idx}")
     public ResponseEntity<?> deleteMember(@PathVariable int idx) {
         try {
-            memberService.deleteMember(idx);
+            if (memberRepository.existsById(idx)) {
+                memberRepository.deleteById(idx);
+            } else {
+                throw new RuntimeException("해당 유저가 존재하지 않습니다");
+            }
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저 정보 찾기 실패 " + idx);
@@ -74,33 +75,44 @@ public class AdminController {
 
     @GetMapping("/menus")
     public String manageMenus(Model model) {
-        List<Menu> menus = menuService.getAllMenus();
+        List<Menu> menus = menuRepository.findAll();
         model.addAttribute("menus", menus);
         return "admin/menu";
     }
 
     @GetMapping("/menus/{idx}/edit")
-    public String editMenuForm(@PathVariable Long    idx, Model model) {
-        Optional<Menu> editedMenu = menuService.findTopByIdx(idx);
+    public String editMenuForm(@PathVariable Long idx, Model model) {
+        Optional<Menu> editedMenu = menuRepository.findTopByIdx(idx);
         if (editedMenu.isPresent()) {
             model.addAttribute("menu", editedMenu.get());
             return "admin/menu_edit";
         } else {
-            model.addAttribute("error", "No menu found with id: " + idx);
+            model.addAttribute("error", "해당 메뉴가 존재하지 않습니다");
             return "admin/menu";
         }
     }
 
-    @PutMapping("/api/menus/{idx}")
-    public ResponseEntity<Menu> updateMenu(@PathVariable Long idx, @RequestBody Menu menuDetails) {
-        Menu updatedMenu = menuService.updateMenuInfo(idx, menuDetails);
-        return ResponseEntity.ok(updatedMenu);
+    @PutMapping("/menus/{idx}")
+    public ResponseEntity<Menu> editMenu(@PathVariable Long idx, @RequestBody Menu menuDetails) {
+        Menu editedMenu = menuRepository.findTopByIdx(idx).orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다"));
+        editedMenu.setName(menuDetails.getName());
+        editedMenu.setImageUrl(menuDetails.getImageUrl());
+        editedMenu.setPrice(menuDetails.getPrice());
+        editedMenu.setCategoryIdx(menuDetails.getCategoryIdx());
+        editedMenu.setUpdatedAt(LocalDateTime.now());
+        menuRepository.save(editedMenu);
+
+        return ResponseEntity.ok(editedMenu);
     }
 
     @DeleteMapping("/menus/{idx}")
     public ResponseEntity<?> deleteMenu(@PathVariable Long idx) {
         try {
-            menuService.deleteMenu(idx);
+            if (menuRepository.existsById(idx)) {
+                menuRepository.deleteById(idx);
+            } else {
+                throw new RuntimeException("해당 메뉴가 존재하지 않습니다");
+            }
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("메뉴 정보 찾기 실패 " + idx);
@@ -109,37 +121,47 @@ public class AdminController {
 
     @GetMapping("/orders")
     public String manageOrders(Model model) {
-        List<Order> orders = orderService.getAllOrders();
+        List<Order> orders = orderRepository.findAll();
         model.addAttribute("orders", orders);
         return "admin/order";
     }
 
     @GetMapping("/orders/{idx}/edit")
     public String editOrderForm(@PathVariable int idx, Model model) {
-        Optional<Order> editedOrder = orderService.findTopByIdx(idx);
+        Optional<Order> editedOrder = orderRepository.findTopByIdx(idx);
         if (editedOrder.isPresent()) {
             model.addAttribute("order", editedOrder.get());
             return "admin/order_edit";
         } else {
-            model.addAttribute("error", "No order found with id: " + idx);
+            model.addAttribute("error", "주문 정보 찾기 실패 " + idx);
             return "admin/order";
         }
     }
 
-    @PutMapping("/api/orders/{idx}")
-    public ResponseEntity<Order> updateOrder(@PathVariable int idx, @RequestBody Order orderDetails) {
-        Order updatedOrder = orderService.updateOrderInfo(idx, orderDetails);
-        return ResponseEntity.ok(updatedOrder);
+    @PutMapping("/orders/{idx}")
+    public ResponseEntity<Order> editOrder(@PathVariable int idx, @RequestBody Order orderDetails) {
+        Order editedOrder = orderRepository.findTopByIdx(idx).orElseThrow(() -> new RuntimeException("해당 주문이 존재하지 않습니다"));
+        editedOrder.setMenuCount(orderDetails.getMenuCount());
+        editedOrder.setTotalPrice(orderDetails.getTotalPrice());
+        editedOrder.setStatus(orderDetails.getStatus());
+        editedOrder.setMemberIdx(orderDetails.getMemberIdx());
+        editedOrder.setCreatedAt(LocalDateTime.now());
+        orderRepository.save(editedOrder);
+
+        return ResponseEntity.ok(editedOrder);
     }
 
     @DeleteMapping("/orders/{idx}")
     public ResponseEntity<?> deleteOrder(@PathVariable int idx) {
         try {
-            orderService.deleteOrder(idx);
+            if (orderRepository.existsById(idx)) {
+                orderRepository.deleteById(idx);
+            } else {
+                throw new RuntimeException("해당 주문이 존재하지 않습니다");
+            }
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문 정보 찾기 실패 " + idx);
         }
     }
 }
-

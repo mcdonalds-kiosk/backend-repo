@@ -48,12 +48,6 @@
     <div class="container">
       <h2>멤버 정보 수정</h2>
       <form id="updateMemberForm" th:object="${member}">
-        <!-- Your form fields go here -->
-        <!-- <form
-        th:action="@{/admin-management/members/{idx}(idx=${member.idx})}"
-        th:method="post"
-        th:object="${member}"
-      > -->
         <input type="hidden" id="idx" name="idx" th:value="${member.idx}" />
         <div>
           <label for="id">아이디</label>
@@ -70,8 +64,8 @@
         <div>
           <label for="role">권한</label>
           <select id="role" th:field="*{role}">
-            <option value="1">관리자</option>
-            <option value="2">유저</option>
+            <option value="0" th:selected="${role == 0}">관리자</option>
+            <option value="1" th:selected="${role == 1}">유저</option>
           </select>
         </div>
         <div>
@@ -83,11 +77,6 @@
             disabled
           />
         </div>
-        <!--    <div>-->
-        <!--      <label for="point">적립금</label>-->
-        <!--      <input type="number" id="point" th:field="*{point}" />-->
-        <!--    </div>-->
-        <!-- <button type="submit" class="btn-blue">수정</button> -->
         <button type="button" class="btn-blue" onclick="updateMember()">
           수정
         </button>
@@ -100,8 +89,8 @@
       function updateMember() {
         const form = document.getElementById('updateMemberForm');
         const formData = new FormData(form);
-        const idx = formData.get('idx'); // Now this should correctly get the value
-        const url = `/admin-management/api/members/${idx}`;
+        const idx = formData.get('idx');
+        const url = `/admin/members/${idx}`;
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -127,12 +116,11 @@
           .then((data) => {
             console.log('Success:', data);
             alert('유저 정보 수정 성공');
-            window.location.href = '/admin-management/members';
-            // Redirect or update UI as needed
+            window.location.href = '/admin/members';
           })
           .catch((error) => {
             console.error('Error:', error);
-            alert('유저 정보 업데이트 실패');
+            alert('유저 정보 수정 실패');
           });
       }
     </script>
