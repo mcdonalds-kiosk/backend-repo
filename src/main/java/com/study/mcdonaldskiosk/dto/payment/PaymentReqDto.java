@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
 public class PaymentReqDto {
     // 토스 페이먼츠 결제창 띄우기 위해 필요한 파라미터들
     private PayType payType;
-    private Integer price;
-    private Integer amount;
+    private int price;
+    private int amount;
+
     private String orderName;
 
     public Purchase toEntity() {

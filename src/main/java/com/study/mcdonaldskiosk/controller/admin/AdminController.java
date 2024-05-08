@@ -2,9 +2,11 @@ package com.study.mcdonaldskiosk.controller.admin;
 
 import com.study.mcdonaldskiosk.domain.member.Member;
 import com.study.mcdonaldskiosk.domain.menu.Menu;
+import com.study.mcdonaldskiosk.domain.order.Order;
 import com.study.mcdonaldskiosk.service.admin.AdminService;
 import com.study.mcdonaldskiosk.service.member.MemberService;
 import com.study.mcdonaldskiosk.service.menu.MenuService;
+import com.study.mcdonaldskiosk.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,10 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private MemberService memberService;
-
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private OrderService orderService;
 
     // 관리자로 로그인 하면 관리자 페이지로 넘어가주기
     @GetMapping("/members")
@@ -35,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping("/members/{idx}/edit")
-    public String editMemberForm(@PathVariable Integer idx, Model model) {
+    public String editMemberForm(@PathVariable int idx, Model model) {
         Optional<Member> findedMember = memberService.findTopByIdx(idx);
         if (findedMember.isPresent()) {
             model.addAttribute("member", findedMember.get());
@@ -54,13 +57,13 @@ public class AdminController {
 //    }
     // RestFul API 방법
     @PutMapping("/api/members/{idx}")
-    public ResponseEntity<Member> updateMember(@PathVariable Integer idx, @RequestBody Member memberDetails) {
+    public ResponseEntity<Member> updateMember(@PathVariable int idx, @RequestBody Member memberDetails) {
         Member updatedMember = memberService.updateMember(idx, memberDetails);
         return ResponseEntity.ok(updatedMember);
     }
 
     @DeleteMapping("/members/{idx}")
-    public ResponseEntity<?> deleteMember(@PathVariable Integer idx) {
+    public ResponseEntity<?> deleteMember(@PathVariable int idx) {
         try {
             memberService.deleteMember(idx);
             return ResponseEntity.ok().build();
@@ -101,6 +104,41 @@ public class AdminController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("메뉴 정보 찾기 실패 " + idx);
+        }
+    }
+
+    @GetMapping("/orders")
+    public String manageOrders(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "admin/order";
+    }
+
+    @GetMapping("/orders/{idx}/edit")
+    public String editOrderForm(@PathVariable int idx, Model model) {
+        Optional<Order> editedOrder = orderService.findTopByIdx(idx);
+        if (editedOrder.isPresent()) {
+            model.addAttribute("order", editedOrder.get());
+            return "admin/order_edit";
+        } else {
+            model.addAttribute("error", "No order found with id: " + idx);
+            return "admin/order";
+        }
+    }
+
+    @PutMapping("/api/orders/{idx}")
+    public ResponseEntity<Order> updateOrder(@PathVariable int idx, @RequestBody Order orderDetails) {
+        Order updatedOrder = orderService.updateOrderInfo(idx, orderDetails);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @DeleteMapping("/orders/{idx}")
+    public ResponseEntity<?> deleteOrder(@PathVariable int idx) {
+        try {
+            orderService.deleteOrder(idx);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문 정보 찾기 실패 " + idx);
         }
     }
 }

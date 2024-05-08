@@ -3,8 +3,7 @@
   <head>
     <div th:replace="/fragments/header.html :: header"></div>
     <meta charset="UTF-8" />
-    <title>상품 정보</title>
-    <!-- Include Bootstrap CSS and JS -->
+    <title>주문 정보</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -22,7 +21,6 @@
       td {
         border: 1px solid black;
         padding: 8px;
-        
         text-align: center;
       }
       th {
@@ -55,35 +53,37 @@
           th:replace="fragments/nav :: nav"
           fixed-top
         ></div>
-        <!-- <div layout:fragment="content" class="content"> -->
         <div class="container">
           <div class="col-md-12">
-            <h2>상품 관리</h2>
-            <p th:text="'총 ' + ${menus.size()} + '개의 상품이 있습니다.'"></p>
+            <h2>주문 관리</h2>
+            <p th:text="'총 ' + ${orders.size()} + '개의 주문이 있습니다.'"></p>
             <table>
               <thead>
                 <tr>
                   <th>번호</th>
-                  <th>이름</th>
-                  <th>이미지</th>
-                  <th>가격</th>
-                  <th>옵션</th>
+                  <th>주문 코드</th>
+                  <th>금액</th>
+                  <th>갯수</th>
+                  <th>임시 번호</th>
+                  <th>주문 상태</th>
                   <th>수정</th>
                   <th>삭제</th>
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="menu, iterStat : ${menus}">
+                <tr th:each="order, iterStat : ${orders}">
                   <td th:text="${iterStat.index + 1}"></td>
-                  <td th:text="${menu.name}"></td>
-                  <td>
-                    <img th:src="${menu.imageUrl}" alt="Menu Image" />
-                  </td>
-                  <td th:text="${menu.price}"></td>
-                  <td th:text="${menu.categoryIdx}"></td>
+                  <td th:text="${order.purchaseIdx}"></td>
+                  <td th:text="${order.totalPrice}"></td>
+                  <td th:text="${order.menuCount}"></td>
+                  <td th:text="${order.idx}"></td>
+                  <td th:text="${order.status}"></td>
+                  <!-- <td
+                    th:text="${order.status == '0' ? '실패' : order.status == '1' ? '성공'}"
+                  ></td> -->
                   <td>
                     <a
-                      th:href="@{/admin-management/menus/{idx}/edit(idx=${menu.idx})}"
+                      th:href="@{/admin-management/orders/{idx}/edit(idx=${order.idx})}"
                       class="button blue"
                       >수정</a
                     >
@@ -92,7 +92,7 @@
                   <td>
                     <button
                       class="button red"
-                      th:attr="onclick='deleteMenu(' + ${menu.idx} + ')'"
+                      th:attr="onclick='deleteOrder(' + ${order.idx} + ')'"
                     >
                       삭제
                     </button>
@@ -105,15 +105,14 @@
       </div>
     </div>
     <script>
-      function deleteMenu(menuIdx) {
+      function deleteOrder(orderIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin-management/menus/' + menuIdx, {
+          fetch('/admin-management/orders/' + orderIdx, {
             method: 'DELETE',
           })
             .then((response) => {
               if (response.ok) {
                 alert('삭제 성공');
-
                 window.location.reload();
               } else {
                 alert('삭제 실패');
