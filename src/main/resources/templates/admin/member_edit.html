@@ -90,7 +90,8 @@
         const form = document.getElementById('updateMemberForm');
         const formData = new FormData(form);
         const idx = formData.get('idx');
-        const url = `/admin/members/${idx}`;
+        const url = `/api/v1/admin/members/${idx}`;
+
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -116,7 +117,7 @@
           .then((data) => {
             console.log('Success:', data);
             alert('유저 정보 수정 성공');
-            window.location.href = '/admin/members';
+            window.location.href = '/api/v1/admin/members';
           })
           .catch((error) => {
             console.error('Error:', error);

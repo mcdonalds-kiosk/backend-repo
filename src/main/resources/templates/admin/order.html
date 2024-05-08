@@ -61,10 +61,10 @@
               <thead>
                 <tr>
                   <th>번호</th>
+                  <th>주문 번호</th>
                   <th>주문 코드</th>
                   <th>금액</th>
                   <th>갯수</th>
-                  <th>임시 번호</th>
                   <th>주문 상태</th>
                   <th>수정</th>
                   <th>삭제</th>
@@ -73,14 +73,14 @@
               <tbody>
                 <tr th:each="order, iterStat : ${orders}">
                   <td th:text="${iterStat.index + 1}"></td>
+                  <td th:text="${order.idx}"></td>
                   <td th:text="${order.purchaseIdx}"></td>
                   <td th:text="${order.totalPrice}"></td>
                   <td th:text="${order.menuCount}"></td>
-                  <td th:text="${order.idx}"></td>
                   <td th:text="${order.status}"></td>
                   <td>
                     <a
-                      th:href="@{/admin/orders/{idx}/edit(idx=${order.idx})}"
+                      th:href="@{/api/v1/admin/orders/{idx}/edit(idx=${order.idx})}"
                       class="button blue"
                       >수정</a
                     >
@@ -103,7 +103,7 @@
     <script>
       function deleteOrder(orderIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin/orders/' + orderIdx, {
+          fetch('/api/v1/admin/orders/' + orderIdx, {
             method: 'DELETE',
           })
             .then((response) => {

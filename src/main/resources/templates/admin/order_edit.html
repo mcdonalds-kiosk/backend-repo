@@ -55,7 +55,11 @@
           th:value="${order.memberIdx}"
         />
         <div>
-          <label for="name">주문 번호</label>
+          <label for="idx">주문 번호</label>
+          <input type="number" id="idx" th:field="*{idx}" />
+        </div>
+        <div>
+          <label for="name">주문 코드</label>
           <input type="text" id="name" th:field="*{purchaseIdx}" disabled />
         </div>
         <div>
@@ -63,33 +67,17 @@
           <input type="number" id="price" th:field="*{totalPrice}" />
         </div>
         <div>
-          <label for="price">주문 상품 개수</label>
+          <label for="count">주문 상품 개수</label>
           <input type="number" id="count" th:field="*{menuCount}" />
-        </div>
-        <div>
-          <label for="idx">주문 상품 개수</label>
-          <input type="number" id="idx" th:field="*{idx}" />
         </div>
         <div>
           <label for="status">옵션</label>
           <select id="status" th:field="*{status}">
-            <option value="Pending" th:selected="${status == 'Pending'}">
-              Pending: 주문이 접수되었으나 아직 처리되지 않음
+            <option value="DONE" th:selected="${status == 'DONE'}">
+              DONE: 주문이 성공적으로 처리되었음
             </option>
-            <option value="Processing" th:selected="${status == 'Processing'}">
-              Processing: 주문이 처리 중임
-            </option>
-            <option value="Completed" th:selected="${status == 'Completed'}">
-              Completed: 주문이 성공적으로 처리되었음
-            </option>
-            <option value="Failed" th:selected="${status == 'Failed'}">
-              Failed: 주문 처리에 실패했음 있음
-            </option>
-            <option value="Cancelled" th:selected="${status == 'Cancelled'}">
-              Cancelled: 주문이 취소됨
-            </option>
-            <option value="Refunded" th:selected="${status == 'Refunded'}">
-              Refunded: 결제가 환불됨
+            <option value="FAIL" th:selected="${status == 'FAIL'}">
+              FAIL: 주문 처리에 실패했음
             </option>
           </select>
         </div>
@@ -114,7 +102,7 @@
         const form = document.getElementById('updateOrderForm');
         const formData = new FormData(form);
         const idx = formData.get('idx');
-        const url = `/admin/orders/${idx}`;
+        const url = `/api/v1/admin/orders/${idx}`;
         const jsonData = {};
 
         formData.forEach((value, key) => {
@@ -140,21 +128,13 @@
           .then((data) => {
             console.log('Success:', data);
             alert('주문 정보 수정 성공');
-            window.location.href = '/admin/orders';
+            window.location.href = '/api/v1/admin/orders';
           })
           .catch((error) => {
             console.error('Error:', error);
             alert('주문 정보 수정 실패');
           });
       }
-
-      document
-        .getElementById('imageUrl')
-        .addEventListener('input', function () {
-          const imageUrl = this.value;
-          const imagePreview = document.getElementById('imagePreview');
-          imagePreview.src = imageUrl;
-        });
     </script>
   </body>
 </html>
