@@ -12,9 +12,9 @@ create table member(
 );
 DESC member;
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 2, now());
+VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 1, now());
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 1, now());
+VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 0, now());
 drop table if exists category;
 CREATE TABLE category (
                           idx INT PRIMARY KEY AUTO_INCREMENT,
@@ -61,7 +61,7 @@ create table purchase(
                          payment_data JSON,
                          created_at DATETIME DEFAULT (current_timestamp()) NOT NULL,
                          updated_at DATETIME DEFAULT (current_timestamp()) NOT NULL,
-                         CONSTRAINT fk_purchase_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx)
+                         CONSTRAINT fk_purchase_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx) ON DELETE SET NULL ON UPDATE SET NULL
 );
 drop table if exists `order`;
 CREATE TABLE `order`
@@ -73,6 +73,6 @@ CREATE TABLE `order`
     `member_idx` INT,
     `purchase_idx` BINARY(16),
     `created_at` DATETIME DEFAULT (current_timestamp()) NOT NULL,
-    CONSTRAINT fk_order_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx),
+    CONSTRAINT fk_order_member_idx FOREIGN KEY (member_idx) REFERENCES member(idx) ON DELETE SET NULL ON UPDATE SET NULL,
     CONSTRAINT fk_order_purchase_idx FOREIGN KEY (purchase_idx) REFERENCES purchase(idx)
 );
