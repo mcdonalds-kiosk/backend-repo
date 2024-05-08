@@ -9,6 +9,7 @@
   <body>
     <button id="payButton">결제</button>
     <button id="adminLogin">관리자 로그인</button>
+    <button id="login" onclick="login()">로그인</button>
     <script>
       // ------ 클라이언트 키로 객체 초기화 ------
       var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
@@ -77,6 +78,10 @@
         .addEventListener('click', function () {
           window.location.href = '/admin-management/members'; // 관리자 페이지로 이동
         });
+
+      function login(){
+        window.location.href = "http://localhost:3000/login";
+      }
     </script>
   </body>
 </html>
