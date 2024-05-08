@@ -12,9 +12,11 @@ create table member(
 );
 DESC member;
 INSERT INTO member (id, pw, name, email, role, join_date)
-VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 1, now());
+VALUES ('비회원', '1234', '비회원', 'fake@gmail.com', 2, now());
 INSERT INTO member (id, pw, name, email, role, join_date)
 VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 0, now());
+INSERT INTO member (id, pw, name, email, role, join_date)
+VALUES ('hyorry', '1234', '효리', 'borieya0619@gmail.com', 1, now());
 drop table if exists category;
 CREATE TABLE category (
                           idx INT PRIMARY KEY AUTO_INCREMENT,
