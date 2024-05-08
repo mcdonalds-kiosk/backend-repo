@@ -87,7 +87,7 @@
                   ></td>
                   <td>
                     <a
-                      th:href="@{/admin/menus/{idx}/edit(idx=${menu.idx})}"
+                      th:href="@{/api/v1/admin/menus/{idx}/edit(idx=${menu.idx})}"
                       class="button blue"
                       >수정</a
                     >
@@ -110,7 +110,7 @@
     <script>
       function deleteMenu(menuIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin/menus/' + menuIdx, {
+          fetch('/api/v1/admin/menus/' + menuIdx, {
             method: 'DELETE',
           })
             .then((response) => {

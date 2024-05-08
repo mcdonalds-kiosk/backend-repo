@@ -84,7 +84,7 @@
                   ></td>
                   <td>
                     <a
-                      th:href="@{/admin/members/{idx}/edit(idx=${member.idx})}"
+                      th:href="@{/api/v1/admin/members/{idx}/edit(idx=${member.idx})}"
                       class="button blue"
                       >수정</a
                     >
@@ -107,7 +107,7 @@
     <script>
       function deleteMember(memberIdx) {
         if (confirm('삭제하시겠습니까?')) {
-          fetch('/admin/members/' + memberIdx, {
+          fetch('/api/v1/admin/members/' + memberIdx, {
             method: 'DELETE',
           })
             .then((response) => {
