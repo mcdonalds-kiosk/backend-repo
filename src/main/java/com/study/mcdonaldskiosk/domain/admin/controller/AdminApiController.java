@@ -1,7 +1,6 @@
 package com.study.mcdonaldskiosk.domain.admin.controller;
 
 import com.study.mcdonaldskiosk.domain.member.entity.Member;
-import com.study.mcdonaldskiosk.domain.member.MemberRole;
 import com.study.mcdonaldskiosk.domain.member.repository.MemberRepository;
 import com.study.mcdonaldskiosk.domain.menu.entity.Menu;
 import com.study.mcdonaldskiosk.domain.menu.repository.MenuRepository;
@@ -11,41 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v1/admin")
-public class AdminController {
+public class AdminApiController {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
     private MenuRepository menuRepository;
     @Autowired
     private OrderRepository orderRepository;
-
-    @GetMapping("/members")
-    public String manageMembers(Model model) {
-        List<Member> members = memberRepository.findByRoleNot(MemberRole.UNKNOWN);
-        model.addAttribute("members", members);
-        return "admin/member";
-    }
-
-    @GetMapping("/members/{idx}/edit")
-    public String editMemberForm(@PathVariable int idx, Model model) {
-        Optional<Member> findedMember = memberRepository.findTopByIdx(idx);
-        if (findedMember.isPresent()) {
-            model.addAttribute("member", findedMember.get());
-            return "admin/member_edit";
-        } else {
-            model.addAttribute("error", "해당 유저가 존재하지 않습니다");
-            return "admin/member";
-        }
-    }
 
     @PutMapping("/members/{idx}")
     public ResponseEntity<Member> editMember(@PathVariable int idx, @RequestBody Member memberDetails) {
@@ -71,25 +48,6 @@ public class AdminController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저 정보 찾기 실패 " + idx);
-        }
-    }
-
-    @GetMapping("/menus")
-    public String manageMenus(Model model) {
-        List<Menu> menus = menuRepository.findAll();
-        model.addAttribute("menus", menus);
-        return "admin/menu";
-    }
-
-    @GetMapping("/menus/{idx}/edit")
-    public String editMenuForm(@PathVariable Long idx, Model model) {
-        Optional<Menu> editedMenu = menuRepository.findTopByIdx(idx);
-        if (editedMenu.isPresent()) {
-            model.addAttribute("menu", editedMenu.get());
-            return "admin/menu_edit";
-        } else {
-            model.addAttribute("error", "해당 메뉴가 존재하지 않습니다");
-            return "admin/menu";
         }
     }
 
@@ -120,24 +78,6 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/orders")
-    public String manageOrders(Model model) {
-        List<Order> orders = orderRepository.findAll();
-        model.addAttribute("orders", orders);
-        return "admin/order";
-    }
-
-    @GetMapping("/orders/{idx}/edit")
-    public String editOrderForm(@PathVariable int idx, Model model) {
-        Optional<Order> editedOrder = orderRepository.findTopByIdx(idx);
-        if (editedOrder.isPresent()) {
-            model.addAttribute("order", editedOrder.get());
-            return "admin/order_edit";
-        } else {
-            model.addAttribute("error", "주문 정보 찾기 실패 " + idx);
-            return "admin/order";
-        }
-    }
 
     @PutMapping("/orders/{idx}")
     public ResponseEntity<Order> editOrder(@PathVariable int idx, @RequestBody Order orderDetails) {

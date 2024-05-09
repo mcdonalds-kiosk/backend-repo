@@ -1,6 +1,7 @@
 package com.study.mcdonaldskiosk.domain.member.controller;
 
 import com.study.mcdonaldskiosk.domain.member.MemberRole;
+import com.study.mcdonaldskiosk.domain.member.dto.ResMemberJoinDto;
 import com.study.mcdonaldskiosk.domain.member.entity.Member;
 import com.study.mcdonaldskiosk.domain.member.repository.MemberRepository;
 import com.study.mcdonaldskiosk.domain.member.dto.MemberDto;
@@ -30,9 +31,12 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public void join(@RequestBody MemberDto memberDto){
+    public ResMemberJoinDto join(@RequestBody MemberDto memberDto){
         Member member = memberDto.toEntity();
         memberRepository.save(member);
+        ResMemberJoinDto resMemberJoinDto = new ResMemberJoinDto();
+        resMemberJoinDto.setStatus(true);
+        return resMemberJoinDto;
     }
 
     @GetMapping("/login")
